@@ -66,8 +66,8 @@ function drawRegionsMap() {
 		displayMode: 'regions',
 		resolution: 'provinces',
 		keepAspectRatio: true,
-		width: 1280,
-		height: 720
+		width: 1400,
+		height: 700,
 	};
 	
 	var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
