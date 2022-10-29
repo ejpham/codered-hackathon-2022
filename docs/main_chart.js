@@ -10,6 +10,13 @@ async function fetchData(year) {
   return oilProduction;
 }
 
+function displayOilProduction() {
+  let year = document.getElementById("year").value;
+  fetchData(year).then((oil) => {
+    google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
+  });
+}
+
 fetchData(2021).then((oil) => {
   google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
 });
