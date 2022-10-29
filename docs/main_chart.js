@@ -1,5 +1,6 @@
 google.charts.load('current', {
 	'packages':['geochart'],
+	'mapsApiKey': 'AIzaSyBXFoIa_0kAuzuE3b3UYyM7Z65ljghFdmg'
 });
 
 google.charts.setOnLoadCallback(drawRegionsMap);
