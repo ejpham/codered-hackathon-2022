@@ -2,7 +2,7 @@ google.charts.load("current", {
   packages: ["geochart"],
 });
 
-async function fetchData(year) {
+async function fetchOilData(year) {
   const response = await fetch(
     `https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&start=${year}&end=${year}&data[]=value`
   );
@@ -10,14 +10,29 @@ async function fetchData(year) {
   return oilProduction;
 }
 
+async function fetchNaturalGasData(year) {
+  const response = await fetch(
+    `https://api.eia.gov/v2/natural-gas/prod/whv/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&start=${year}&end=${year}&data[]=value`
+  );
+  const gasProduction = await response.json();
+  return gasProduction;
+}
+
 function displayOilProduction() {
   let year = document.getElementById("year").value;
-  fetchData(year).then((oil) => {
+  fetchOilData(year).then((oil) => {
     google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
   });
 }
 
-fetchData(2021).then((oil) => {
+function displayNaturalGasProduction() {
+  let year = document.getElementById("year").value;
+  fetchNaturalGasData(year).then((gas) => {
+    google.charts.setOnLoadCallback(drawRegionsMap(gas["response"]["data"]));
+  });
+}
+
+fetchOilData(2021).then((oil) => {
   google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
 });
 
@@ -36,7 +51,28 @@ function getOilProductionValue(data, stateNeeded) {
   return 0;
 }
 
-async function timelapse() {
+function getNaturalGasProductionValue(data, stateNeeded) {
+  for (const area of data) {
+    const state = area["series-description"].split(" ")[0];
+    if (stateNeeded === state) {
+      if (area["units"] === "MMCF") {
+        return area["value"];
+      }
+    }
+  }
+  return 0;
+}
+
+async function timelapseOil() {
+  for (let i = 1973; i <= 2021; i++) {
+    fetchData(i).then((oil) => {
+      google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
+    });
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
+
+async function timelapseNaturalGas() {
   for (let i = 1973; i <= 2021; i++) {
     fetchData(i).then((oil) => {
       google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
