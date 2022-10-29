@@ -11,7 +11,6 @@ async function fetchData(year) {
 }
 
 fetchData(2021).then((oil) => {
-  console.log(oil["response"]["data"]);
   google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
 });
 
@@ -29,6 +28,17 @@ function getOilProductionValue(data, stateNeeded) {
   }
   return 0;
 }
+
+async function timelapse() {
+  for (let i = 1973; i <= 2021; i++) {
+    fetchData(i).then((oil) => {
+      google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
+    });
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
+
+// timelapse();
 
 function drawRegionsMap(data) {
   var data = google.visualization.arrayToDataTable([
