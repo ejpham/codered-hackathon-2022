@@ -11,7 +11,7 @@ async function fetchData(year) {
 }
 
 function displayOilProduction() {
-  let year = document.getElementById("year").value;
+  let year = document.getElementById("oil-year").value;
   fetchData(year).then((oil) => {
     google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
   });
@@ -110,7 +110,7 @@ function drawRegionsMap(data) {
     resolution: "provinces",
     keepAspectRatio: true,
     width: 1400,
-    height: 700,
+    height: 800,
   };
 
   var chart = new google.visualization.GeoChart(
