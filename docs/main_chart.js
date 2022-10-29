@@ -1,8 +1,5 @@
-import 'secret.js'
-
 google.charts.load('current', {
 	'packages':['geochart'],
-	'mapsApiKey': SECRET_API_KEY
 });
 
 google.charts.setOnLoadCallback(drawRegionsMap);
