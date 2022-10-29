@@ -2,15 +2,15 @@ google.charts.load("current", {
   packages: ["geochart"],
 });
 
-async function fetch2021() {
+async function fetchData(year) {
   const response = await fetch(
-    "https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&start=2021&data[]=value"
+    `https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&start=${year}&end=${year}&data[]=value`
   );
   const oilProduction = await response.json();
   return oilProduction;
 }
 
-fetch2021().then((oil) => {
+fetchData(2021).then((oil) => {
   console.log(oil["response"]["data"]);
   google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
 });
@@ -18,8 +18,13 @@ fetch2021().then((oil) => {
 function getOilProductionValue(data, stateNeeded) {
   for (const area of data) {
     const state = area["series-description"].split(" ")[0];
-    if (stateNeeded === state && area["units"] === "MBBL") {
-      return area["value"];
+    if (stateNeeded === state) {
+      if (area["units"] === "MBBL/D") {
+        return area["value"] * 365;
+      }
+      if (area["units"] === "MBBL") {
+        return area["value"];
+      }
     }
   }
   return 0;
