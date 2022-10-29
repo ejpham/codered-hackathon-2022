@@ -1,13 +1,15 @@
+import 'secret.js'
+
 google.charts.load('current', {
 	'packages':['geochart'],
-	'mapsApiKey': 'AIzaSyBXFoIa_0kAuzuE3b3UYyM7Z65ljghFdmg'
+	'mapsApiKey': SECRET_API_KEY
 });
 
 google.charts.setOnLoadCallback(drawRegionsMap);
 
 function drawRegionsMap() {
 	var data = google.visualization.arrayToDataTable([
-		['State', 'Select'],
+		['State', 'Oil Production'],
 		['Alaska', 0],
 		['Alabama', 0],
 		['Arkansas', 0],
@@ -59,13 +61,16 @@ function drawRegionsMap() {
 		['Washington', 0],
 		['Wisconsin', 0],
 		['West Virginia', 0],
-		['Wyoming', 0],
+		['Wyoming', 0]
 	]);
 	
 	var options = {
 		region: 'US',
 		displayMode: 'regions',
-		resolution: 'provinces'
+		resolution: 'provinces',
+		keepAspectRatio: true,
+		width: 1280,
+		height: 720
 	};
 	
 	var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
