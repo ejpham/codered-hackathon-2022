@@ -193,31 +193,31 @@ function getNaturalGasProductionValue(data, stateNeeded) {
   return 0;
 }
 
-// async function timelapseOil() {
-//   for (let i = 1973; i <= 2021; i++) {
-//     fetchOilData(i).then((oil) => {
-//       google.charts.setOnLoadCallback(
-//         drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
-//       );
-//     });
-//     await new Promise((r) => setTimeout(r, 2000));
-//   }
-// }
+async function timelapseOil() {
+  for (let i = 1973; i <= 2021; i++) {
+    fetchOilData(i).then((oil) => {
+      google.charts.setOnLoadCallback(
+        drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
+      );
+    });
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
 
-// async function timelapseNaturalGas() {
-//   for (let i = 1967; i <= 2021; i++) {
-//     fetchNaturalGasData(i).then((gas) => {
-//       google.charts.setOnLoadCallback(
-//         drawRegionsMapNaturalGas(
-//           states,
-//           gas["response"]["data"],
-//           naturalGasNumbers
-//         )
-//       );
-//     });
-//     await new Promise((r) => setTimeout(r, 2000));
-//   }
-// }
+async function timelapseNaturalGas() {
+  for (let i = 1967; i <= 2021; i++) {
+    fetchNaturalGasData(i).then((gas) => {
+      google.charts.setOnLoadCallback(
+        drawRegionsMapNaturalGas(
+          states,
+          gas["response"]["data"],
+          naturalGasNumbers
+        )
+      );
+    });
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+}
 
 fetchOilData(2021).then((oil) => {
   google.charts.setOnLoadCallback(
