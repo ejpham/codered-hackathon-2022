@@ -1,8 +1,7 @@
 const states = [
-  "Alaska",
   "Alabama",
+  "Alaska",
   "Arkansas",
-  "American Samoa",
   "Arizona",
   "California",
   "Colorado",
@@ -38,7 +37,6 @@ const states = [
   "Oklahoma",
   "Oregon",
   "Pennsylvania",
-  "Puerto Rico",
   "Rhode Island",
   "South Carolina",
   "South Dakota",
@@ -89,6 +87,9 @@ function displayOilProduction() {
     google.charts.setOnLoadCallback(
       drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
     );
+    for (let state of states) {
+      document.getElementById(state).innerText = oilNumbers.get(state);
+    }
   });
 }
 
@@ -102,6 +103,10 @@ function displayNaturalGasProduction() {
         naturalGasNumbers
       )
     );
+    for (let state of states) {
+      document.getElementById(`${state}-gas`).innerText =
+        naturalGasNumbers.get(state);
+    }
   });
 }
 
@@ -164,12 +169,19 @@ fetchOilData(2021).then((oil) => {
   google.charts.setOnLoadCallback(
     drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
   );
+  for (let state of states) {
+    document.getElementById(state).innerText = oilNumbers.get(state);
+  }
 });
 
 fetchNaturalGasData(2021).then((gas) => {
   google.charts.setOnLoadCallback(
     drawRegionsMapNaturalGas(states, gas["response"]["data"], naturalGasNumbers)
   );
+  for (let state of states) {
+    document.getElementById(`${state}-gas`).innerText =
+      naturalGasNumbers.get(state);
+  }
 });
 
 function drawRegionsMapOil(states, data, oilListVals) {
