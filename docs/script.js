@@ -137,6 +137,7 @@ async function fetchNatGasHistoryForState(state) {
 
 function displayOilProduction() {
   let year = document.getElementById("oil-year").value;
+  document.getElementById("crude-oil-year").textContent = year;
   fetchOilData(year).then((oil) => {
     google.charts.setOnLoadCallback(
       drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
@@ -149,6 +150,7 @@ function displayOilProduction() {
 
 function displayNaturalGasProduction() {
   let year = document.getElementById("gas-year").value;
+  document.getElementById("natural-gas-year").textContent = year;
   fetchNaturalGasData(year).then((gas) => {
     google.charts.setOnLoadCallback(
       drawRegionsMapNaturalGas(
@@ -199,6 +201,7 @@ async function timelapseOil() {
       google.charts.setOnLoadCallback(
         drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
       );
+      document.getElementById("crude-oil-year").textContent = i;
     });
     await new Promise((r) => setTimeout(r, 500));
   }
@@ -214,6 +217,7 @@ async function timelapseNaturalGas() {
           naturalGasNumbers
         )
       );
+      document.getElementById("natural-gas-year").textContent = i;
     });
     await new Promise((r) => setTimeout(r, 500));
   }
