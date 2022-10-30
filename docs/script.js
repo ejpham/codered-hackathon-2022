@@ -19,8 +19,13 @@ async function fetchNaturalGasData(year) {
 }
 
 function displayOilProduction() {
+<<<<<<< HEAD:docs/main_chart.js
   let year = document.getElementById("year").value;
   fetchOilData(year).then((oil) => {
+=======
+  let year = document.getElementById("oil-year").value;
+  fetchData(year).then((oil) => {
+>>>>>>> 91c249611c609673475bcd772cc4b8cc4a7a9379:docs/script.js
     google.charts.setOnLoadCallback(drawRegionsMap(oil["response"]["data"]));
   });
 }
@@ -146,7 +151,7 @@ function drawRegionsMap(data) {
     resolution: "provinces",
     keepAspectRatio: true,
     width: 1400,
-    height: 700,
+    height: 800,
   };
 
   var chart = new google.visualization.GeoChart(
