@@ -282,24 +282,50 @@ function drawRegionsMapOil(states, data, oilListVals) {
     if (message == "") {
       message = "nothing";
     }
-    var linedata = google.visualization.arrayToDataTable([
-      ["Year", "Sales", "Expenses"],
-      ["2004", 1000, 400],
-      ["2005", 1170, 460],
-      ["2006", 660, 1120],
-      ["2007", 1030, 540],
-    ]);
-    var lineoptions = {
-      title: "Company Performance",
-      curveType: "function",
-      legend: { position: "bottom" },
-    };
 
-    var linechart = new google.visualization.LineChart(
-      document.getElementById("line_chart")
-    );
+    var rawlinedata = [];
+    rawlinedata.push(["Year", message]);
 
-    linechart.draw(linedata, lineoptions);
+    fetchOilHistoryForState(message).then((history) => {
+      for (const x of history) {
+        rawlinedata.push([x[0].toString(), x[1]]);
+      }
+      var linedata = google.visualization.arrayToDataTable(rawlinedata);
+
+      var lineoptions = {
+        title: `Oil Production History of ${message}`,
+
+        legend: { position: "bottom" },
+      };
+
+      var linechart = new google.visualization.LineChart(
+        document.getElementById("line_chart")
+      );
+
+      linechart.draw(linedata, lineoptions);
+    });
+
+    // var linedata = google.visualization.arrayToDataTable(rawlinedata);
+
+    // var linedata = google.visualization.arrayToDataTable([
+    //   ["Year", message],
+    //   ["2004", 500],
+    //   ["2005", 460],
+    //   ["2006", 1120],
+    //   ["2007", 540],
+    // ]);
+
+    // var lineoptions = {
+    //   title: "Company Performance",
+    //   curveType: "function",
+    //   legend: { position: "bottom" },
+    // };
+
+    // var linechart = new google.visualization.LineChart(
+    //   document.getElementById("line_chart")
+    // );
+
+    // linechart.draw(linedata, lineoptions);
 
     // var linechart_options = {
     //   hAxis: {
