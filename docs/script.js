@@ -26,7 +26,7 @@ function displayOilProduction() {
 }
 
 function displayNaturalGasProduction() {
-  let year = document.getElementById("year").value;
+  let year = document.getElementById("gas-year").value;
   fetchNaturalGasData(year).then((gas) => {
     google.charts.setOnLoadCallback(
       drawRegionsMapNaturalGas(gas["response"]["data"])
