@@ -85,19 +85,19 @@ async function fetchOilHistoryForState(state) {
     history.set(i, 0);
   }
   for (const record of oilProduction["response"]["data"]) {
-    if (
-      record["series-description"] ==
-      `${state} Field Production of Crude Oil (Thousand Barrels)`
-    ) {
-      history.set(record["period"], record["value"]);
-      // continue;
-    }
     // if (
     //   record["series-description"] ==
-    //   `${state} Field Production of Crude Oil (Thousand Barrels per Day)`
+    //   `${state} Field Production of Crude Oil (Thousand Barrels)`
     // ) {
-    //   history.set(record["period"], record["value"] * 365);
+    //   history.set(record["period"], record["value"]);
+    //   // continue;
     // }
+    if (
+      record["series-description"] ==
+      `${state} Field Production of Crude Oil (Thousand Barrels per Day)`
+    ) {
+      history.set(record["period"], record["value"]);
+    }
   }
   return history;
 }
@@ -130,7 +130,6 @@ async function fetchNatGasHistoryForState(state) {
       `${state} Natural Gas Marketed Production (MMcf)`
     ) {
       history.set(record["period"], record["value"]);
-      if (record["period"] == 2000) console.log(record["value"]);
     }
   }
   return history;
@@ -169,11 +168,11 @@ function getOilProductionValue(data, stateNeeded) {
   for (const area of data) {
     const state = area["series-description"].split(" ")[0];
     if (stateNeeded === state) {
-      if (area["units"] === "MBBL") {
-        if (area["value"] !== null) return area["value"];
-      }
+      // if (area["units"] === "MBBL") {
+      //   if (area["value"] !== null) return area["value"];
+      // }
       if (area["units"] === "MBBL/D") {
-        if (area["value"] !== null) return area["value"] * 365;
+        if (area["value"] !== null) return area["value"];
       }
     }
   }
