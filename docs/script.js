@@ -151,6 +151,10 @@ function drawRegionsMapOil(data) {
     region: 'US',
     displayMode: 'regions',
     resolution: 'provinces',
+    chartArea: {
+      width: '100%'
+    },
+    width: '100%',
   };
 
   var chart = new google.visualization.GeoChart(
@@ -221,6 +225,10 @@ function drawRegionsMapNaturalGas(data) {
     region: 'US',
     displayMode: 'regions',
     resolution: 'provinces',
+    chartArea: {
+      width: '100%'
+    },
+    width: '100%',
   };
   
   var chart = new google.visualization.GeoChart(
