@@ -135,9 +135,9 @@ async function fetchNatGasHistoryForState(state) {
   return history;
 }
 
-// fetchNatGasHistoryForState("Texas").then((history) => {
-//   console.log(history);
-// });
+fetchNatGasHistoryForState("Louisiana").then((history) => {
+  console.log(history);
+});
 
 function displayOilProduction() {
   let year = document.getElementById("oil-year").value;
@@ -242,12 +242,12 @@ fetchNaturalGasData(2021).then((gas) => {
   }
 });
 
-function drawRegionsMapOil(states, data, oilListVals) {
+function drawRegionsMapOil(states, datas, oilListVals) {
   var rawData = [];
   rawData.push(["State", "Oil Production"]);
 
   for (const state of states) {
-    let oilProductionValue = getOilProductionValue(data, state);
+    let oilProductionValue = getOilProductionValue(datas, state);
     oilListVals.set(state, oilProductionValue);
     rawData.push([state, oilProductionValue]);
   }
@@ -308,12 +308,12 @@ function drawRegionsMapOil(states, data, oilListVals) {
   }
 }
 
-function drawRegionsMapNaturalGas(states, data, natGasListVals) {
+function drawRegionsMapNaturalGas(states, datas, natGasListVals) {
   var rawData = [];
   rawData.push(["State", "Natural Gas Production"]);
 
   for (const state of states) {
-    let naturalGasProductionValue = getNaturalGasProductionValue(data, state);
+    let naturalGasProductionValue = getNaturalGasProductionValue(datas, state);
     natGasListVals.set(state, naturalGasProductionValue);
     rawData.push([state, naturalGasProductionValue]);
   }
@@ -356,6 +356,7 @@ function drawRegionsMapNaturalGas(states, data, natGasListVals) {
         for (const x of history) {
           rawlinedata.push([x[0].toString(), x[1]]);
         }
+        // console.log(rawlinedata);
         var linedata = google.visualization.arrayToDataTable(rawlinedata);
 
         var lineoptions = {
