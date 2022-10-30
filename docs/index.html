@@ -78,7 +78,7 @@
         </form>
       </div>
       <div class="row">
-        <div id="regions_div"></div>
+        <div id="regions_oil"></div>
       </div>
     </div>
     </br>
@@ -90,7 +90,7 @@
             <label for="gas-year" class="form-label">Select a year:</label>
           </div>
           <div class="col-auto">
-            <select id="gas-year" class="form-select form-select-sm" aria-label="gas-year-select" onChange="displayGasProduction()">
+            <select id="gas-year" class="form-select form-select-sm" aria-label="gas-year-select" onChange="displayNaturalGasProduction()">
               <option selected value="2021">2021</option>
               <option value="2020">2020</option>
               <option value="2019">2019</option>
@@ -150,9 +150,9 @@
           </div>
         </form>
       </div>
-      <!-- <div class="row">
-        <div id="regions_div"></div>
-      </div> -->
+      <div class="row">
+        <div id="regions_gas"></div>
+      </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>

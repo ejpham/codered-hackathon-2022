@@ -28,8 +28,7 @@ function displayOilProduction() {
 function displayNaturalGasProduction() {
   let year = document.getElementById("gas-year").value;
   fetchNaturalGasData(year).then((gas) => {
-    google.charts.setOnLoadCallback(
-      drawRegionsMapNaturalGas(gas["response"]["data"])
+    google.charts.setOnLoadCallback(drawRegionsMapNaturalGas(gas["response"]["data"])
     );
   });
 }
@@ -85,6 +84,10 @@ async function timelapseNaturalGas() {
 
 fetchOilData(2021).then((oil) => {
   google.charts.setOnLoadCallback(drawRegionsMapOil(oil["response"]["data"]));
+});
+
+fetchNaturalGasData(2021).then((gas) => {
+  google.charts.setOnLoadCallback(drawRegionsMapNaturalGas(gas["response"]["data"]));
 });
 
 function drawRegionsMapOil(data) {
@@ -145,74 +148,84 @@ function drawRegionsMapOil(data) {
   ]);
 
   var options = {
-    region: "US",
-    displayMode: "regions",
-    resolution: "provinces",
-    keepAspectRatio: true,
-    width: 1400,
-    height: 800,
+    region: 'US',
+    displayMode: 'regions',
+    resolution: 'provinces',
   };
 
   var chart = new google.visualization.GeoChart(
-    document.getElementById("regions_div")
+    document.getElementById("regions_oil")
   );
 
   chart.draw(data, options);
+}
 
-  // function drawRegionsMapNaturalGas(data) {
-  //   var data = google.visualization.arrayToDataTable([
-  //     ["State", "Natural Gas Production"],
-  //     ["Alaska", getNaturalGasProductionValue(data, "Alaska")],
-  //     ["Alabama", getNaturalGasProductionValue(data, "Alabama")],
-  //     ["Arkansas", getNaturalGasProductionValue(data, "Arkansas")],
-  //     ["American Samoa", getNaturalGasProductionValue(data, "American Samoa")],
-  //     ["Arizona", getNaturalGasProductionValue(data, "Arizona")],
-  //     ["California", getNaturalGasProductionValue(data, "California")],
-  //     ["Colorado", getNaturalGasProductionValue(data, "Colorado")],
-  //     ["Connecticut", getNaturalGasProductionValue(data, "Connecticut")],
-  //     ["Delaware", getNaturalGasProductionValue(data, "Delaware")],
-  //     ["Florida", getNaturalGasProductionValue(data, "Florida")],
-  //     ["Georgia", getNaturalGasProductionValue(data, "Georgia")],
-  //     ["Hawaii", getNaturalGasProductionValue(data, "Hawaii")],
-  //     ["Iowa", getNaturalGasProductionValue(data, "Iowa")],
-  //     ["Idaho", getNaturalGasProductionValue(data, "Idaho")],
-  //     ["Illinois", getNaturalGasProductionValue(data, "Illinois")],
-  //     ["Indiana", getNaturalGasProductionValue(data, "Indiana")],
-  //     ["Kansas", getNaturalGasProductionValue(data, "Kansas")],
-  //     ["Kentucky", getNaturalGasProductionValue(data, "Kentucky")],
-  //     ["Louisiana", getNaturalGasProductionValue(data, "Louisiana")],
-  //     ["Massachusetts", getNaturalGasProductionValue(data, "Massachusetts")],
-  //     ["Maryland", getNaturalGasProductionValue(data, "Maryland")],
-  //     ["Maine", getNaturalGasProductionValue(data, "Maine")],
-  //     ["Michigan", getNaturalGasProductionValue(data, "Michigan")],
-  //     ["Minnesota", getNaturalGasProductionValue(data, "Minnesota")],
-  //     ["Missouri", getNaturalGasProductionValue(data, "Missouri")],
-  //     ["Mississippi", getNaturalGasProductionValue(data, "Mississippi")],
-  //     ["Montana", getNaturalGasProductionValue(data, "Montana")],
-  //     ["North Carolina", getNaturalGasProductionValue(data, "North Carolina")],
-  //     ["North Dakota", getNaturalGasProductionValue(data, "North Dakota")],
-  //     ["Nebraska", getNaturalGasProductionValue(data, "Nebraska")],
-  //     ["New Hampshire", getNaturalGasProductionValue(data, "New Hampshire")],
-  //     ["New Jersey", getNaturalGasProductionValue(data, "New Jersey")],
-  //     ["New Mexico", getNaturalGasProductionValue(data, "New Mexico")],
-  //     ["Nevada", getNaturalGasProductionValue(data, "Nevada")],
-  //     ["New York", getNaturalGasProductionValue(data, "New York")],
-  //     ["Ohio", getNaturalGasProductionValue(data, "Ohio")],
-  //     ["Oklahoma", getNaturalGasProductionValue(data, "Oklahoma")],
-  //     ["Oregon", getNaturalGasProductionValue(data, "Oregon")],
-  //     ["Pennsylvania", getNaturalGasProductionValue(data, "Pennsylvania")],
-  //     ["Puerto Rico", getNaturalGasProductionValue(data, "Puerto Rico")],
-  //     ["Rhode Island", getNaturalGasProductionValue(data, "Rhode Island")],
-  //     ["South Carolina", getNaturalGasProductionValue(data, "South Carolina")],
-  //     ["South Dakota", getNaturalGasProductionValue(data, "South Dakota")],
-  //     ["Tennessee", getNaturalGasProductionValue(data, "Tennessee")],
-  //     ["Texas", getNaturalGasProductionValue(data, "Texas")],
-  //     ["Utah", getNaturalGasProductionValue(data, "Utah")],
-  //     ["Virginia", getNaturalGasProductionValue(data, "Virginia")],
-  //     ["Vermont", getNaturalGasProductionValue(data, "Vermont")],
-  //     ["Washington", getNaturalGasProductionValue(data, "Washington")],
-  //     ["Wisconsin", getNaturalGasProductionValue(data, "Wisconsin")],
-  //     ["West Virginia", getNaturalGasProductionValue(data, "West Virginia")],
-  //     ["Wyoming", getNaturalGasProductionValue(data, "Wyoming")],
-  //   ]);
+function drawRegionsMapNaturalGas(data) {
+  var data = google.visualization.arrayToDataTable([
+    ["State", "Natural Gas Production"],
+    ["Alaska", getNaturalGasProductionValue(data, "Alaska")],
+    ["Alabama", getNaturalGasProductionValue(data, "Alabama")],
+    ["Arkansas", getNaturalGasProductionValue(data, "Arkansas")],
+    ["American Samoa", getNaturalGasProductionValue(data, "American Samoa")],
+    ["Arizona", getNaturalGasProductionValue(data, "Arizona")],
+    ["California", getNaturalGasProductionValue(data, "California")],
+    ["Colorado", getNaturalGasProductionValue(data, "Colorado")],
+    ["Connecticut", getNaturalGasProductionValue(data, "Connecticut")],
+    ["Delaware", getNaturalGasProductionValue(data, "Delaware")],
+    ["Florida", getNaturalGasProductionValue(data, "Florida")],
+    ["Georgia", getNaturalGasProductionValue(data, "Georgia")],
+    ["Hawaii", getNaturalGasProductionValue(data, "Hawaii")],
+    ["Iowa", getNaturalGasProductionValue(data, "Iowa")],
+    ["Idaho", getNaturalGasProductionValue(data, "Idaho")],
+    ["Illinois", getNaturalGasProductionValue(data, "Illinois")],
+    ["Indiana", getNaturalGasProductionValue(data, "Indiana")],
+    ["Kansas", getNaturalGasProductionValue(data, "Kansas")],
+    ["Kentucky", getNaturalGasProductionValue(data, "Kentucky")],
+    ["Louisiana", getNaturalGasProductionValue(data, "Louisiana")],
+    ["Massachusetts", getNaturalGasProductionValue(data, "Massachusetts")],
+    ["Maryland", getNaturalGasProductionValue(data, "Maryland")],
+    ["Maine", getNaturalGasProductionValue(data, "Maine")],
+    ["Michigan", getNaturalGasProductionValue(data, "Michigan")],
+    ["Minnesota", getNaturalGasProductionValue(data, "Minnesota")],
+    ["Missouri", getNaturalGasProductionValue(data, "Missouri")],
+    ["Mississippi", getNaturalGasProductionValue(data, "Mississippi")],
+    ["Montana", getNaturalGasProductionValue(data, "Montana")],
+    ["North Carolina", getNaturalGasProductionValue(data, "North Carolina")],
+    ["North Dakota", getNaturalGasProductionValue(data, "North Dakota")],
+    ["Nebraska", getNaturalGasProductionValue(data, "Nebraska")],
+    ["New Hampshire", getNaturalGasProductionValue(data, "New Hampshire")],
+    ["New Jersey", getNaturalGasProductionValue(data, "New Jersey")],
+    ["New Mexico", getNaturalGasProductionValue(data, "New Mexico")],
+    ["Nevada", getNaturalGasProductionValue(data, "Nevada")],
+    ["New York", getNaturalGasProductionValue(data, "New York")],
+    ["Ohio", getNaturalGasProductionValue(data, "Ohio")],
+    ["Oklahoma", getNaturalGasProductionValue(data, "Oklahoma")],
+    ["Oregon", getNaturalGasProductionValue(data, "Oregon")],
+    ["Pennsylvania", getNaturalGasProductionValue(data, "Pennsylvania")],
+    ["Puerto Rico", getNaturalGasProductionValue(data, "Puerto Rico")],
+    ["Rhode Island", getNaturalGasProductionValue(data, "Rhode Island")],
+    ["South Carolina", getNaturalGasProductionValue(data, "South Carolina")],
+    ["South Dakota", getNaturalGasProductionValue(data, "South Dakota")],
+    ["Tennessee", getNaturalGasProductionValue(data, "Tennessee")],
+    ["Texas", getNaturalGasProductionValue(data, "Texas")],
+    ["Utah", getNaturalGasProductionValue(data, "Utah")],
+    ["Virginia", getNaturalGasProductionValue(data, "Virginia")],
+    ["Vermont", getNaturalGasProductionValue(data, "Vermont")],
+    ["Washington", getNaturalGasProductionValue(data, "Washington")],
+    ["Wisconsin", getNaturalGasProductionValue(data, "Wisconsin")],
+    ["West Virginia", getNaturalGasProductionValue(data, "West Virginia")],
+    ["Wyoming", getNaturalGasProductionValue(data, "Wyoming")],
+  ]);
+  
+  var options = {
+    region: 'US',
+    displayMode: 'regions',
+    resolution: 'provinces',
+  };
+  
+  var chart = new google.visualization.GeoChart(
+    document.getElementById("regions_gas")
+  );
+    
+  chart.draw(data, options);
 }
