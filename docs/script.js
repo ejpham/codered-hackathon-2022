@@ -76,7 +76,7 @@ async function fetchOilData(year) {
 
 async function fetchOilHistoryForState(state) {
   const response = await fetch(
-    `https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&data[]=value`
+    `https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&end=2021&data[]=value`
   );
   const oilProduction = await response.json();
 
@@ -116,7 +116,7 @@ async function fetchNaturalGasData(year) {
 
 async function fetchNatGasHistoryForState(state) {
   const response = await fetch(
-    `https://api.eia.gov/v2/natural-gas/prod/whv/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&data[]=value`
+    `https://api.eia.gov/v2/natural-gas/prod/whv/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&end=2021&data[]=value`
   );
   const natGasProduction = await response.json();
 
@@ -126,18 +126,19 @@ async function fetchNatGasHistoryForState(state) {
   }
   for (const record of natGasProduction["response"]["data"]) {
     if (
+      // record["process-name"] === "Marketed Production" &&
+      // record["series-description"].split(" ")[0] == state &&
+      // record["units"] == "MMCF" &&
+      // record["value"] !== null
       record["series-description"] ==
       `${state} Natural Gas Marketed Production (MMcf)`
     ) {
       history.set(record["period"], record["value"]);
+      if (record["period"] == 2000) console.log(record["value"]);
     }
   }
   return history;
 }
-
-fetchNatGasHistoryForState("Louisiana").then((history) => {
-  console.log(history);
-});
 
 function displayOilProduction() {
   let year = document.getElementById("oil-year").value;
