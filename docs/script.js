@@ -73,6 +73,38 @@ async function fetchOilData(year) {
   return oilProduction;
 }
 
+async function fetchOilHistoryForState(state) {
+  const response = await fetch(
+    `https://api.eia.gov/v2/petroleum/crd/crpdn/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&data[]=value`
+  );
+  const oilProduction = await response.json();
+
+  let history = new Map();
+  for (let i = 1973; i <= 2021; i++) {
+    history.set(i, 0);
+  }
+  for (const record of oilProduction["response"]["data"]) {
+    if (
+      record["series-description"] ==
+      `${state} Field Production of Crude Oil (Thousand Barrels)`
+    ) {
+      history.set(record["period"], record["value"]);
+      continue;
+    }
+    if (
+      record["series-description"] ==
+      `${state} Field Production of Crude Oil (Thousand Barrels per Day)`
+    ) {
+      history.set(record["period"], record["value"] * 365);
+    }
+  }
+  return history;
+}
+
+// fetchOilHistoryForState("Texas").then((history) => {
+//   console.log(history);
+// });
+
 async function fetchNaturalGasData(year) {
   const response = await fetch(
     `https://api.eia.gov/v2/natural-gas/prod/whv/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&start=${year}&end=${year}&data[]=value`
@@ -80,6 +112,31 @@ async function fetchNaturalGasData(year) {
   const gasProduction = await response.json();
   return gasProduction;
 }
+
+async function fetchNatGasHistoryForState(state) {
+  const response = await fetch(
+    `https://api.eia.gov/v2/natural-gas/prod/whv/data/?api_key=vVQCezbMDFZDw6SCxKutg7fpk43er3EOXsZuEWI0&data[]=value`
+  );
+  const natGasProduction = await response.json();
+
+  let history = new Map();
+  for (let i = 1967; i <= 2021; i++) {
+    history.set(i, 0);
+  }
+  for (const record of natGasProduction["response"]["data"]) {
+    if (
+      record["series-description"] ==
+      `${state} Natural Gas Marketed Production (MMcf)`
+    ) {
+      history.set(record["period"], record["value"]);
+    }
+  }
+  return history;
+}
+
+// fetchNatGasHistoryForState("Texas").then((history) => {
+//   console.log(history);
+// });
 
 function displayOilProduction() {
   let year = document.getElementById("oil-year").value;
@@ -139,31 +196,31 @@ function getNaturalGasProductionValue(data, stateNeeded) {
   return 0;
 }
 
-async function timelapseOil() {
-  for (let i = 1973; i <= 2021; i++) {
-    fetchOilData(i).then((oil) => {
-      google.charts.setOnLoadCallback(
-        drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
-      );
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-  }
-}
+// async function timelapseOil() {
+//   for (let i = 1973; i <= 2021; i++) {
+//     fetchOilData(i).then((oil) => {
+//       google.charts.setOnLoadCallback(
+//         drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
+//       );
+//     });
+//     await new Promise((r) => setTimeout(r, 2000));
+//   }
+// }
 
-async function timelapseNaturalGas() {
-  for (let i = 1967; i <= 2021; i++) {
-    fetchNaturalGasData(i).then((gas) => {
-      google.charts.setOnLoadCallback(
-        drawRegionsMapNaturalGas(
-          states,
-          gas["response"]["data"],
-          naturalGasNumbers
-        )
-      );
-    });
-    await new Promise((r) => setTimeout(r, 2000));
-  }
-}
+// async function timelapseNaturalGas() {
+//   for (let i = 1967; i <= 2021; i++) {
+//     fetchNaturalGasData(i).then((gas) => {
+//       google.charts.setOnLoadCallback(
+//         drawRegionsMapNaturalGas(
+//           states,
+//           gas["response"]["data"],
+//           naturalGasNumbers
+//         )
+//       );
+//     });
+//     await new Promise((r) => setTimeout(r, 2000));
+//   }
+// }
 
 fetchOilData(2021).then((oil) => {
   google.charts.setOnLoadCallback(
@@ -210,20 +267,21 @@ function drawRegionsMapOil(states, data, oilListVals) {
     document.getElementById("regions_oil")
   );
 
-  function myClickHandler() {
-    var selection = chart.getSelection();
-    var message = "";
-    for (var i = 0; i < selection.length; i++) {
-      var item = selection[i];
-      message += Array.from(states)[item.row];
-    }
-    if (message == "") {
-      message = "nothing";
-    }
-    alert("You selected " + message);
-  }
+  // google.visualization.events.addListener(chart, "select", myClickHandler);
 
-  google.visualization.events.addListener(chart, "select", myClickHandler);
+  // function myClickHandler() {
+  //   var selection = chart.getSelection();
+  //   var message = "";
+  //   for (var i = 0; i < selection.length; i++) {
+  //     var item = selection[i];
+  //     message += Array.from(states)[item.row];
+  //   }
+  //   if (message == "") {
+  //     message = "nothing";
+  //   }
+  //   alert("You selected " + message);
+  // }
+
   chart.draw(data, options);
 }
 
