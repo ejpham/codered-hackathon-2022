@@ -64,6 +64,7 @@ for (let state of states) {
 google.charts.load("current", {
   packages: ["geochart"],
 });
+google.charts.load("current", { packages: ["corechart"] });
 
 async function fetchOilData(year) {
   const response = await fetch(
@@ -267,22 +268,51 @@ function drawRegionsMapOil(states, data, oilListVals) {
     document.getElementById("regions_oil")
   );
 
-  // google.visualization.events.addListener(chart, "select", myClickHandler);
-
-  // function myClickHandler() {
-  //   var selection = chart.getSelection();
-  //   var message = "";
-  //   for (var i = 0; i < selection.length; i++) {
-  //     var item = selection[i];
-  //     message += Array.from(states)[item.row];
-  //   }
-  //   if (message == "") {
-  //     message = "nothing";
-  //   }
-  //   alert("You selected " + message);
-  // }
-
   chart.draw(data, options);
+
+  google.visualization.events.addListener(chart, "select", selectHandler);
+
+  function selectHandler() {
+    var selection = chart.getSelection();
+    var message = "";
+    for (var i = 0; i < selection.length; i++) {
+      var item = selection[i];
+      message += Array.from(states)[item.row];
+    }
+    if (message == "") {
+      message = "nothing";
+    }
+    var linedata = google.visualization.arrayToDataTable([
+      ["Year", "Sales", "Expenses"],
+      ["2004", 1000, 400],
+      ["2005", 1170, 460],
+      ["2006", 660, 1120],
+      ["2007", 1030, 540],
+    ]);
+    var lineoptions = {
+      title: "Company Performance",
+      curveType: "function",
+      legend: { position: "bottom" },
+    };
+
+    var linechart = new google.visualization.LineChart(
+      document.getElementById("line_chart")
+    );
+
+    linechart.draw(linedata, lineoptions);
+
+    // var linechart_options = {
+    //   hAxis: {
+    //     title: "Time",
+    //   },
+    //   vAxis: {
+    //     title: "MBBL",
+    //   },
+    // };
+
+    // var line_chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+    // line_chart.draw(history_data, linechart_options);
+  }
 }
 
 function drawRegionsMapNaturalGas(states, data, natGasListVals) {
