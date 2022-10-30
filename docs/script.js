@@ -189,10 +189,7 @@ function drawRegionsMapOil(states, data, oilListVals) {
     displayMode: "regions",
     resolution: "provinces",
     chartArea: {
-      width: "94%",
-    },
-    legend: {
-      position: "top",
+      width: "100%",
     },
     width: "100%",
   };
@@ -221,10 +218,7 @@ function drawRegionsMapNaturalGas(states, data, natGasListVals) {
     displayMode: "regions",
     resolution: "provinces",
     chartArea: {
-      width: "94%",
-    },
-    legend: {
-      position: "top",
+      width: "100%",
     },
     width: "100%",
   };
