@@ -210,6 +210,20 @@ function drawRegionsMapOil(states, data, oilListVals) {
     document.getElementById("regions_oil")
   );
 
+  function myClickHandler() {
+    var selection = chart.getSelection();
+    var message = "";
+    for (var i = 0; i < selection.length; i++) {
+      var item = selection[i];
+      message += Array.from(states)[item.row];
+    }
+    if (message == "") {
+      message = "nothing";
+    }
+    alert("You selected " + message);
+  }
+
+  google.visualization.events.addListener(chart, "select", myClickHandler);
   chart.draw(data, options);
 }
 
