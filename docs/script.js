@@ -200,7 +200,7 @@ async function timelapseOil() {
         drawRegionsMapOil(states, oil["response"]["data"], oilNumbers)
       );
     });
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 500));
   }
 }
 
@@ -215,7 +215,7 @@ async function timelapseNaturalGas() {
         )
       );
     });
-    await new Promise((r) => setTimeout(r, 2000));
+    await new Promise((r) => setTimeout(r, 500));
   }
 }
 
