@@ -283,61 +283,28 @@ function drawRegionsMapOil(states, data, oilListVals) {
       message = "nothing";
     }
 
-    var rawlinedata = [];
-    rawlinedata.push(["Year", message]);
+    if (message !== "nothing") {
+      var rawlinedata = [];
+      rawlinedata.push(["Year", message]);
 
-    fetchOilHistoryForState(message).then((history) => {
-      for (const x of history) {
-        rawlinedata.push([x[0].toString(), x[1]]);
-      }
-      var linedata = google.visualization.arrayToDataTable(rawlinedata);
+      fetchOilHistoryForState(message).then((history) => {
+        for (const x of history) {
+          rawlinedata.push([x[0].toString(), x[1]]);
+        }
+        var linedata = google.visualization.arrayToDataTable(rawlinedata);
 
-      var lineoptions = {
-        title: `Oil Production History of ${message}`,
+        var lineoptions = {
+          title: `Oil Production History of ${message}`,
+          legend: { position: "bottom" },
+        };
 
-        legend: { position: "bottom" },
-      };
+        var linechart = new google.visualization.LineChart(
+          document.getElementById("line_chart_oil")
+        );
 
-      var linechart = new google.visualization.LineChart(
-        document.getElementById("line_chart")
-      );
-
-      linechart.draw(linedata, lineoptions);
-    });
-
-    // var linedata = google.visualization.arrayToDataTable(rawlinedata);
-
-    // var linedata = google.visualization.arrayToDataTable([
-    //   ["Year", message],
-    //   ["2004", 500],
-    //   ["2005", 460],
-    //   ["2006", 1120],
-    //   ["2007", 540],
-    // ]);
-
-    // var lineoptions = {
-    //   title: "Company Performance",
-    //   curveType: "function",
-    //   legend: { position: "bottom" },
-    // };
-
-    // var linechart = new google.visualization.LineChart(
-    //   document.getElementById("line_chart")
-    // );
-
-    // linechart.draw(linedata, lineoptions);
-
-    // var linechart_options = {
-    //   hAxis: {
-    //     title: "Time",
-    //   },
-    //   vAxis: {
-    //     title: "MBBL",
-    //   },
-    // };
-
-    // var line_chart = new google.visualization.LineChart(document.getElementById('line_chart'));
-    // line_chart.draw(history_data, linechart_options);
+        linechart.draw(linedata, lineoptions);
+      });
+    }
   }
 }
 
@@ -368,4 +335,40 @@ function drawRegionsMapNaturalGas(states, data, natGasListVals) {
   );
 
   chart.draw(data, options);
+
+  google.visualization.events.addListener(chart, "select", selectHandler);
+
+  function selectHandler() {
+    var selection = chart.getSelection();
+    var message = "";
+    for (var i = 0; i < selection.length; i++) {
+      var item = selection[i];
+      message += Array.from(states)[item.row];
+    }
+    if (message == "") {
+      message = "nothing";
+    }
+    if (message !== "nothing") {
+      var rawlinedata = [];
+      rawlinedata.push(["Year", message]);
+
+      fetchNatGasHistoryForState(message).then((history) => {
+        for (const x of history) {
+          rawlinedata.push([x[0].toString(), x[1]]);
+        }
+        var linedata = google.visualization.arrayToDataTable(rawlinedata);
+
+        var lineoptions = {
+          title: `Nat. Gas Production History of ${message}`,
+          legend: { position: "bottom" },
+        };
+
+        var linechart = new google.visualization.LineChart(
+          document.getElementById("line_chart_gas")
+        );
+
+        linechart.draw(linedata, lineoptions);
+      });
+    }
+  }
 }
